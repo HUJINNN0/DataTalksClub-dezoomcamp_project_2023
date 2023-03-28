@@ -1,0 +1,13 @@
+sources:
+    - name: staging
+      #For bigquery:
+      database: dtc-de-375802
+
+      schema: final_project
+
+      # loaded_at_field: record_loaded_at
+      tables:
+        - name: chatgpt_after
+        - name: chatgpt_before
+         # freshness:
+           # error_after: {count: 6, period: hour}

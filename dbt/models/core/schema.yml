@@ -1,0 +1,28 @@
+{{ config(materialized='table') }}
+
+with chatgpt_before as (
+    select *, 
+        'before' as service_type 
+    from {{ ref('stg_chatgpt_before') }}
+), 
+
+chatgpt_after as (
+    select *, 
+        'after' as service_type
+    from {{ ref('stg_chatgpt_after') }}
+), 
+
+select 
+    data_unioned.int64_field_0, 
+    data_unioned.videoId, 
+    data_unioned.publishedAt,
+    data_unioned.channelID, 
+    data_unioned.title,  
+    data_unioned.channelTitle, 
+    data_unioned.viewCount, 
+    data_unioned.channelType, 
+from data_unioned
+inner join final_data as final_data
+on data_unioned.after = after.video_id
+inner join chatdata as chatdata
+on data_unioned.before = before.video_id
